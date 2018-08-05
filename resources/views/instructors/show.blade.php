@@ -21,6 +21,9 @@
                     @if($instructor->hourly_rate)
                         <p>Hourly rate: £{{ $instructor->hourly_rate_in_pounds }}</p>
                     @endif
+                    @if($instructor->certificates->count())
+                        @include('instructors/partials/certificates', ['certificates' => $instructor->certificates])
+                    @endif
                 </div>
             </div>
         </div>

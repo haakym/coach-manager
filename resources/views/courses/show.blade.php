@@ -9,17 +9,19 @@
                     <div class="card-title">
                         <h2>{{ $course->name }}</h2>
                     </div>
+                    @if($course->description)
+                        <p>{{ $course->description }}</p>
+                    @endif
+                    @if($course->address)
+                        <address>
+                            <span role="img" aria-label="Address">📍</span> {{ $course->address }}
+                        </address>
+                    @endif
                     <p>
-                        {{ $course->description }}
+                        <span role="img" aria-label="Date">📆</span> 
+                        {{ $course->date_from->format('F j, Y') }} to 
+                        {{ $course->date_to->format('F j, Y') }}
                     </p>
-                    <address>
-                        <span role="img" aria-label="Address">📍</span> {{ $course->address }}
-                    </address>
-                    </p>
-                    <p>
-                        <span role="img" aria-label="Date">📆</span> {{ $course->date_from->format('F j, Y') }} to {{ $course->date_to->format('F j, Y') }}
-                    </p>
-
                 </div>
             </div>
         </div>

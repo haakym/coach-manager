@@ -18,7 +18,7 @@ class CreateInstructorsTable extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->string('type');
-            $table->integer('hourly_rate');
+            $table->integer('hourly_rate')->default(0);
             $table->timestamps();
         });
     }

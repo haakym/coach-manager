@@ -13,7 +13,7 @@ $factory->define(Instructor::class, function (Faker $faker) {
 $factory->state(Instructor::class, 'volunteer', [
     'type' => 'volunteer',
     'hourly_rate' => 0,
-    ]);
+]);
     
 $factory->state(Instructor::class, 'coach', [
     'type' => 'coach',
