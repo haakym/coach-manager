@@ -17,7 +17,9 @@ Route::get('/', function () {
 
 Route::get('/courses/{course}', 'CourseController@show');
 
-Route::get('/instructors/{instructor}', 'instructorController@show');
+Route::get('/instructors/{instructor}', 'InstructorController@show');
+
+Route::get('/certificates/{certificate}/download', 'CertificateDownloadController');
 
 Auth::routes();
 
