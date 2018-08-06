@@ -2,7 +2,6 @@
 
 namespace Tests\Feature;
 
-use Mockery;
 use Tests\TestCase;
 use App\Models\Instructor;
 use App\Models\Certificate;
@@ -10,6 +9,7 @@ use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\Concerns\InteractsWithExceptionHandling;
+use Mockery;
 
 class DownloadCertificateTest extends TestCase
 {
