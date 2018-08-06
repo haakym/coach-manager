@@ -24,7 +24,7 @@ class InstructorController extends Controller
      */
     public function create()
     {
-        //
+        return view('instructors/create');
     }
 
     /**
@@ -35,6 +35,11 @@ class InstructorController extends Controller
      */
     public function store(Request $request)
     {
+        $validatedData = $request->validate([
+            'name' => 'required|between:2,255',
+            'email' => 'required|email',
+        ]);
+
         $instructor = Instructor::create([
             'name' => $request->name,
             'email' => $request->email,
