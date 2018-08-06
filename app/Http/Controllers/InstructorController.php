@@ -35,7 +35,18 @@ class InstructorController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $instructor = Instructor::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'type' => $request->type,
+            'hourly_rate' => $request->has('hourly_rate') ? $request->hourly_rate : 0,
+        ]);
+
+        return redirect("instructors/{$instructor->id}")
+            ->with([
+                'status' => 'success',
+                'message' => "New {$instructor->type} {$instructor->name} added.",
+            ]);
     }
 
     /**

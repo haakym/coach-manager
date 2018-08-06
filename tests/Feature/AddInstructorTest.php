@@ -2,8 +2,9 @@
 
 namespace Tests\Feature;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
+use App\Models\Instructor;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class AddInstructorTest extends TestCase
 {
@@ -21,8 +22,8 @@ class AddInstructorTest extends TestCase
         $instructor = Instructor::first();
 
         $response->assertRedirect("instructors/{$instructor->id}")
-            ->assertSessionHas('message', 'New instructor added.');
-
+            ->assertSessionHas('message', "New {$instructor->type} {$instructor->name} added.");
+        
         $this->assertEquals('Jane Doe', $instructor->name);
         $this->assertEquals('jane@example.com', $instructor->email);
         $this->assertEquals('volunteer', $instructor->type);
