@@ -11,6 +11,14 @@ class AddInstructorTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
+    public function user_can_view_the_add_instructor_page()
+    {
+        $response = $this->get('instructors/create');
+
+        $response->assertStatus(200);
+    }
+
+    /** @test */
     public function user_can_add_a_volunteer()
     {
         $response = $this->post('instructors', [
