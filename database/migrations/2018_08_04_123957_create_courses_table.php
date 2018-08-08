@@ -20,6 +20,7 @@ class CreateCoursesTable extends Migration
             $table->text('address')->nullable();
             $table->date('date_from');
             $table->date('date_to');
+            $table->string('status')->default('pending');
             $table->timestamps();
         });
     }
