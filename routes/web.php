@@ -15,6 +15,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/courses/create', 'CourseController@create');
 Route::post('/courses', 'CourseController@store');
 Route::get('/courses/{course}', 'CourseController@show');
 

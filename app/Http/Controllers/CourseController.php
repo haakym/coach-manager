@@ -25,7 +25,7 @@ class CourseController extends Controller
      */
     public function create()
     {
-        //
+        return view('courses/create');
     }
 
     /**
@@ -38,10 +38,10 @@ class CourseController extends Controller
     {
         $validatedData = $request->validate([
             'name' => 'required|between:2,255',
-            'description' => 'between:10,500',
-            'address' => 'between:10,500',
-            'date_from' => 'required|date_format:"d-m-Y',
-            'date_to' => 'required|date_format:"d-m-Y',
+            'description' => 'nullable|between:10,500',
+            'address' => 'nullable|between:10,500',
+            'date_from' => 'required|date_format:"d-m-Y|before_or_equal:date_from',
+            'date_to' => 'required|date_format:"d-m-Y|after_or_equal:date_to',
         ]);
 
         $course = Course::create([
