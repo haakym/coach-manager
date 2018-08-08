@@ -11,7 +11,7 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
+    <!-- <script src="{{ asset('js/app.js') }}" defer></script> -->
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="https://fonts.gstatic.com">
@@ -37,6 +37,7 @@
 
                     </ul>
 
+                    {{--
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ml-auto">
                         <!-- Authentication Links -->
@@ -67,13 +68,15 @@
                             </li>
                         @endguest
                     </ul>
+                    --}}
                 </div>
             </div>
         </nav>
-
         <main class="py-4">
+            @include('layouts/partials/session-message')
             @yield('content')
         </main>
     </div>
+    @stack('scripts')
 </body>
 </html>
