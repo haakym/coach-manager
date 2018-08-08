@@ -7,7 +7,12 @@
             <div class="card">
                 <div class="card-body">
                     <div class="card-title">
-                        <h2>{{ $course->name }}</h2>
+                        <h2>
+                            {{ $course->name }}
+                            <span class="badge badge-pill badge-{{ $course->status != 'pending' ? success : 'secondary' }}">
+                                {{ ucfirst($course->status) }}
+                            </span>
+                        </h2>
                     </div>
                     @if($course->description)
                         <p>{{ $course->description }}</p>
