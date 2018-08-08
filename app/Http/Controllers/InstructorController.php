@@ -37,7 +37,11 @@ class InstructorController extends Controller
     {
         $validatedData = $request->validate([
             'name' => 'required|between:2,255',
-            'email' => 'required|email',
+            'email' => 'required|email|unique:instructors',
+            'type' => 'required|in:coach,volunteer',
+            'hourly_rate' => 'required_if:type,coach|regex:/^\d*(\.\d{1,2})?$/'
+        ], [
+            'hourly_rate.regex' => 'The hourly rate format is invalid, please use the following format: 0.00.'
         ]);
 
         $instructor = Instructor::create([
