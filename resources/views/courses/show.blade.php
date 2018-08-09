@@ -27,6 +27,8 @@
                         {{ $course->date_from->format('F j, Y') }} to 
                         {{ $course->date_to->format('F j, Y') }}
                     </p>
+                    <p>Coaches required: {{ $course->coaches_required }}</p>
+                    <p>Volunteers required: {{ $course->volunteers_required }}</p>
                 </div>
             </div>
         </div>

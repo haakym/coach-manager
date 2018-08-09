@@ -32,6 +32,8 @@ class AddCourseTest extends TestCase
             'address' => 'SuperSkills Soccer UK Ltd, Bridge Rd, Wembley HA9 9JP',
             'date_from' => $dateFrom->format('d-m-Y'),
             'date_to' => $dateTo->format('d-m-Y'),
+            'coaches_required' => '1',
+            'volunteers_required' => '1',
         ]);
 
         $course = Course::first();
@@ -43,5 +45,7 @@ class AddCourseTest extends TestCase
         $this->assertEquals('Football training for kids', $course->description);
         $this->assertEquals('SuperSkills Soccer UK Ltd, Bridge Rd, Wembley HA9 9JP', $course->address);
         $this->assertEquals('pending', $course->status);
+        $this->assertEquals('1', $course->coaches_required);
+        $this->assertEquals('1', $course->volunteers_required);
     }
 }

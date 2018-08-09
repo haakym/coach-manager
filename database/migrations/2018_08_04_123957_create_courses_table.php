@@ -21,6 +21,8 @@ class CreateCoursesTable extends Migration
             $table->date('date_from');
             $table->date('date_to');
             $table->string('status')->default('pending');
+            $table->integer('coaches_required');
+            $table->integer('volunteers_required');
             $table->timestamps();
         });
     }
