@@ -40,8 +40,8 @@ class CourseController extends Controller
             'name' => 'required|between:2,255',
             'description' => 'nullable|between:10,500',
             'address' => 'nullable|between:10,500',
-            'date_from' => 'required|date_format:"d-m-Y|before_or_equal:date_from',
-            'date_to' => 'required|date_format:"d-m-Y|after_or_equal:date_to',
+            'date_from' => 'required|date_format:"d-m-Y|after:today',
+            'date_to' => 'required|date_format:"d-m-Y|after_or_equal:date_from',
         ]);
 
         $course = Course::create([

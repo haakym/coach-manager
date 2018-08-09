@@ -60,7 +60,7 @@
                             {!! $errors->first('date_from', '<div class="invalid-feedback">:message</div>') !!}
                         </div>
                         <div class="form-group">
-                            <label for="date_to">Date from*</label>
+                            <label for="date_to">Date to*</label>
                             <input type="text"
                                 name="date_to"
                                 class="form-control {{ $errors->first('date_to', 'is-invalid') }}"
@@ -98,7 +98,8 @@
             'minDate': moment().add(1, 'days'),
             'maxDate': moment().add(1, 'year'),
         }, function(start, end, label) {
-            // console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
+            // TODO
+            // if dateTo < start, set dateTo = start
         });
 
         let dateTo = $('input[name="date_to"]').daterangepicker({
@@ -108,11 +109,12 @@
             'locale': {
                'format': 'DD-MM-YYYY'
             },
-            'startDate': dateToOld ? dateToOld : moment().add(7, 'days'),
+            'startDate': dateToOld ? dateToOld : moment().add(5, 'days'),
             'minDate': moment().add(1, 'days'),
             'maxDate': moment().add(1, 'year'),
         }, function(start, end, label) {
-            // console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
+            // TODO
+            // if dateFrom > start, set dateFrom = start
         });
     });
     </script>
