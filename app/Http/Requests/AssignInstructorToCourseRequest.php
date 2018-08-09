@@ -32,7 +32,7 @@ class AssignInstructorToCourseRequest extends FormRequest
             ],
             'instructor_id' => [
                 'required',
-                'exists,instructors,id',
+                // 'exists,instructors,id',
                 new CourseInstructorAssignmentIsValid(
                     array_merge(
                         $this->all(),

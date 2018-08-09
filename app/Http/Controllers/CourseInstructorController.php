@@ -11,16 +11,15 @@ class CourseInstructorController extends Controller
 {
     public function store(Course $course, AssignInstructorToCourseRequest $request)
     {
-        $course->instructors()->create([
-            'instructor_id' => $instructor->id,
+        $course->instructors()->attach($request->instructor_id, [
             'date_from' => $request->date_from,
             'date_to' => $request->date_to,
         ]);
 
-        // assign instructor to course
-        // validation
-        // make sure it's free
-            // make sure volunteer or coach space is available/required
-        // make sure dates are within course dates
+        return redirect("courses/{$course->id}")
+            ->with([
+                'status' => 'success',
+                'message' => ucfirst($request->type) . ' assigned to course.',
+            ]);
     }
 }

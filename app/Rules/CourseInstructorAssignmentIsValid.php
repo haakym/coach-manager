@@ -21,14 +21,7 @@ class CourseInstructorAssignmentIsValid implements Rule
         $this->instructor = Instructor::findOrFail($assignmentProposal['instructor_id']);
         $this->course = $assignmentProposal['course'];
         $this->type = $assignmentProposal['type'];
-        // $assignmentProposal
-        "date_from" => "01-01-2019"
-        "date_to" => "06-01-2019"
-        "instructor_id" => 1
-        "type" => "coach"
-        dd($assignmentProposal);
-        // $this->course = $course;
-        // $this->instructor = $instructor;
+        $this->message = 'The assigned instructor and dates are invalid.';
     }
 
     /**
@@ -40,10 +33,27 @@ class CourseInstructorAssignmentIsValid implements Rule
      */
     public function passes($attribute, $value)
     {
-        // course status must not be assigned
+        // course 'status' must not be 'assigned'
+        if ($this->course->status === 'assigned') {
+            $this->message = 'The course is already fully assigned.';
+        }
+
         $instructorRequirement = $this->course->instructorRequirementByType($this->type);
 
-        Course::where('date_from')
+        $instructorsAssigned = $this->course
+                    ->instructors() // refactor to query scope: coaches(), volunteers()
+                    ->where('type', $this->type)
+                    ->wherePivot('date_from', $this->dateFrom->format('Y-m-d'))
+                    ->wherePivot('date_to', $this->dateTo->format('Y-m-d'))
+                    ->count();
+
+        if ($instructorsAssigned < $instructorRequirement) {
+            return true;
+        }
+
+        $this->message = 'There are already enough ' . str_plural($this->type) . ' assigned for these dates.';
+
+        return false;
     }
 
     /**
@@ -53,6 +63,6 @@ class CourseInstructorAssignmentIsValid implements Rule
      */
     public function message()
     {
-        return 'The validation error message.';
+        return $this->message;
     }
 }

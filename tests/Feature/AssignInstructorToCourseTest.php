@@ -23,6 +23,7 @@ class AssignInstructorToCourseTest extends TestCase
         $dateTo = $dateFrom->copy()->addDays(5);
 
         $coach = factory(Instructor::class)->states('coach')->create();
+
         $course = factory(Course::class)->create([
             'date_from' => $dateFrom->format('Y-m-d'),
             'date_to' => $dateTo->format('Y-m-d'),
@@ -40,7 +41,9 @@ class AssignInstructorToCourseTest extends TestCase
         $instructor = Instructor::first();
 
         $response->assertRedirect("courses/{$course->id}")
-            ->assertSessionHas('message', ucfirst($instructor->type) . ' assigned.');
+            ->assertSessionHas('message', ucfirst($instructor->type) . ' assigned to course.');
+
+        // complete assertions
         
         // assert $course->instructors
         // assert $course->coaches
