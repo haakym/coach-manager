@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Course;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 class CourseController extends Controller
 {
@@ -24,7 +25,7 @@ class CourseController extends Controller
      */
     public function create()
     {
-        //
+        return view('courses/create');
     }
 
     /**
@@ -35,7 +36,27 @@ class CourseController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validatedData = $request->validate([
+            'name' => 'required|between:2,255',
+            'description' => 'nullable|between:10,500',
+            'address' => 'nullable|between:10,500',
+            'date_from' => 'required|date_format:"d-m-Y|after:today',
+            'date_to' => 'required|date_format:"d-m-Y|after_or_equal:date_from',
+        ]);
+
+        $course = Course::create([
+            'name' => $request->name,
+            'description' => $request->description,
+            'address' => $request->address,
+            'date_from' => Carbon::createFromFormat('d-m-Y', $request->date_from)->format('Y-m-d'),
+            'date_to' => Carbon::createFromFormat('d-m-Y', $request->date_to)->format('Y-m-d'),
+        ]);
+
+        return redirect("courses/{$course->id}")
+            ->with([
+                'status' => 'success',
+                'message' => "New course {$course->name} added.",
+            ]);
     }
 
     /**
