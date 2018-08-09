@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateCourseInstructorsTable extends Migration
+class CreateCourseInstructorTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,9 @@ class CreateCourseInstructorsTable extends Migration
      */
     public function up()
     {
-        Schema::create('course_instructors', function (Blueprint $table) {
+        Schema::create('course_instructor', function (Blueprint $table) {
             $table->increments('id');
-            $table->date('date_from')
+            $table->date('date_from');
             $table->date('date_to');
             $table->unsignedInteger('instructor_id');
             $table->unsignedInteger('course_id');

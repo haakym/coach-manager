@@ -7,15 +7,22 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Models\Course;
 use App\Models\Instructor;
+use Carbon\Carbon;
+use Illuminate\Foundation\Testing\Concerns\InteractsWithExceptionHandling;
 
 class AssignInstructorToCourseTest extends TestCase
 {
+    use RefreshDatabase;
+    use InteractsWithExceptionHandling;
+
     /** @test */
     public function user_can_assign_a_coach_to_a_course()
     {
+        $this->withoutExceptionHandling();
         $dateFrom = Carbon::parse('first day of January next year');
         $dateTo = $dateFrom->copy()->addDays(5);
 
+        $coach = factory(Instructor::class)->states('coach')->create();
         $course = factory(Course::class)->create([
             'date_from' => $dateFrom->format('Y-m-d'),
             'date_to' => $dateTo->format('Y-m-d'),
@@ -23,12 +30,11 @@ class AssignInstructorToCourseTest extends TestCase
             'volunteers_required' => 0,
         ]);
 
-        $coach = factory(Instructor::class)->create();
-
-        $response = $this->post('courses/{$course->id}/instructors', [
+        $response = $this->post('/courses/1/instructors', [
             'date_from' => $dateFrom->format('d-m-Y'),
             'date_to' => $dateTo->format('d-m-Y'),
             'instructor_id' => $coach->id,
+            'type' => 'coach',
         ]);
 
         $instructor = Instructor::first();

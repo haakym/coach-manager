@@ -14,11 +14,6 @@ class Instructor extends Model
         return number_format($this->hourly_rate / 100, 2, '.', '');
     }
 
-    public function certificates()
-    {
-        return $this->hasMany(Certificate::class);
-    }
-
     public function setHourlyRateAttribute($value)
     {
         if (is_int($value)) {
@@ -44,5 +39,18 @@ class Instructor extends Model
     private function floatCurrencyToInt($value)
     {
         return (int) (round($value, 2) * 100);
+    }
+
+    public function certificates()
+    {
+        return $this->hasMany(Certificate::class);
+    }
+
+    public function courses()
+    {
+        return $this->belongsToMany(Course::class)
+            ->withPivot('date_from', 'date_to')
+            ->withTimestamps();
+            // ->as('bettername')
     }
 }
