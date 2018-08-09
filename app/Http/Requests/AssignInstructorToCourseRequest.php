@@ -3,8 +3,8 @@
 namespace App\Http\Requests;
 
 use App\Models\Instructor;
-use Illuminate\Foundation\Http\FormRequest;
 use App\Rules\CourseInstructorAssignmentIsValid;
+use Illuminate\Foundation\Http\FormRequest;
 
 class AssignInstructorToCourseRequest extends FormRequest
 {
