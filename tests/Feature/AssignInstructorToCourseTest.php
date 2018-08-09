@@ -43,7 +43,7 @@ class AssignInstructorToCourseTest extends TestCase
         $response->assertRedirect("courses/{$course->id}")
             ->assertSessionHas('message', ucfirst($instructor->type) . ' assigned to course.');
 
-        // complete assertions
+        // Todo: complete assertions
         
         // assert $course->instructors
         // assert $course->coaches
