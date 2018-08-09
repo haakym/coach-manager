@@ -11,21 +11,21 @@
 |
 */
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
+Route::get('/', function () {
+    return view('welcome');
+});
 
-// Route::get('/courses/create', 'CourseController@create');
-// Route::post('/courses', 'CourseController@store');
-// Route::get('/courses/{course}', 'CourseController@show');
+Route::get('/courses/create', 'CourseController@create');
+Route::post('/courses', 'CourseController@store');
+Route::get('/courses/{course}', 'CourseController@show');
 Route::post('/courses/{course}/instructors', 'CourseInstructorController@store');
 
-// Route::get('/instructors/create', 'InstructorController@create');
-// Route::post('/instructors', 'InstructorController@store');
-// Route::get('/instructors/{instructor}', 'InstructorController@show');
+Route::get('/instructors/create', 'InstructorController@create');
+Route::post('/instructors', 'InstructorController@store');
+Route::get('/instructors/{instructor}', 'InstructorController@show');
 
-// Route::get('/certificates/{certificate}/download', 'CertificateDownloadController');
+Route::get('/certificates/{certificate}/download', 'CertificateDownloadController');
 
-// Auth::routes();
+Auth::routes();
 
-// Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/home', 'HomeController@index')->name('home');
