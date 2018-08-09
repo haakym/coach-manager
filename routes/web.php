@@ -17,6 +17,7 @@ Route::get('/', function () {
 
 Route::get('/courses/create', 'CourseController@create');
 Route::post('/courses', 'CourseController@store');
+Route::get('/courses/{course}/instructors', 'CourseInstructorController@store');
 Route::get('/courses/{course}', 'CourseController@show');
 
 Route::get('/instructors/create', 'InstructorController@create');
