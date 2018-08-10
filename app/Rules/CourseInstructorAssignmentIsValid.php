@@ -33,27 +33,31 @@ class CourseInstructorAssignmentIsValid implements Rule
      */
     public function passes($attribute, $value)
     {
-        // course 'status' must not be 'assigned'
         if ($this->course->status === 'assigned') {
             $this->message = 'The course is already fully assigned.';
+            return false;
         }
 
         $instructorRequirement = $this->course->instructorRequirementByType($this->type);
 
         $instructorsAssigned = $this->course
-                    ->instructors() // refactor to query scope: coaches(), volunteers()
+                    ->instructors() // ToDo: refactor to query scope: coaches(), volunteers()
                     ->where('type', $this->type)
                     ->wherePivot('date_from', $this->dateFrom->format('Y-m-d'))
                     ->wherePivot('date_to', $this->dateTo->format('Y-m-d'))
-                    ->count();
+                    ->get();
 
-        if ($instructorsAssigned < $instructorRequirement) {
-            return true;
+        if ($instructorsAssigned->count() >= $instructorRequirement) {
+            $this->message = 'There are already enough ' . str_plural($this->type) . ' assigned for these dates.';
+            return false;
         }
 
-        $this->message = 'There are already enough ' . str_plural($this->type) . ' assigned for these dates.';
+        if ($instructorsAssigned->where('id', $this->instructor->id)->count() > 0) {
+            $this->message = ucfirst($this->type) . ' already assigned within this date range.';
+            return false;
+        }
 
-        return false;
+        return true;
     }
 
     /**
