@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Course;
+use App\Models\Instructor;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 
@@ -42,6 +43,8 @@ class CourseController extends Controller
             'address' => 'nullable|between:10,500',
             'date_from' => 'required|date_format:"d-m-Y|after:today',
             'date_to' => 'required|date_format:"d-m-Y|after_or_equal:date_from',
+            'coaches_required' => 'required|integer',
+            'volunteers_required' => 'required|integer',
         ]);
 
         $course = Course::create([
@@ -50,6 +53,8 @@ class CourseController extends Controller
             'address' => $request->address,
             'date_from' => Carbon::createFromFormat('d-m-Y', $request->date_from)->format('Y-m-d'),
             'date_to' => Carbon::createFromFormat('d-m-Y', $request->date_to)->format('Y-m-d'),
+            'coaches_required' => (int) $request->coaches_required,
+            'volunteers_required' => (int) $request->volunteers_required,
         ]);
 
         return redirect("courses/{$course->id}")
@@ -67,7 +72,15 @@ class CourseController extends Controller
      */
     public function show(Course $course)
     {
-        return view('courses.show', ['course' => $course]);
+        $course->load('instructors');
+
+        $data = [
+            'course' => $course,
+            'coaches' => Instructor::coaches()->get(),
+            'volunteers' => Instructor::volunteers()->get(),
+        ];
+
+        return view('courses.show', $data);
     }
 
     /**

@@ -13,5 +13,7 @@ $factory->define(App\Models\Course::class, function (Faker $faker) {
         'address' => $faker->address,
         'date_from' => $dateFrom->format('Y-m-d'),
         'date_to' => $dateTo->format('Y-m-d'),
+        'coaches_required' => 1,
+        'volunteers_required' => 1,
     ];
 });
