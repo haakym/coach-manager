@@ -37,6 +37,10 @@ class CreateCertificatesTable extends Migration
      */
     public function down()
     {
+        Schema::table('certificates', function (Blueprint $table) {
+            $table->dropForeign(['instructor_id']);
+        });
+
         Schema::dropIfExists('certificates');
     }
 }

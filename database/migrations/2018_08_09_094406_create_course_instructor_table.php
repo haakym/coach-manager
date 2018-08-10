@@ -40,6 +40,11 @@ class CreateCourseInstructorTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('course_instructors');
+        Schema::table('course_instructor', function (Blueprint $table) {
+            $table->dropForeign(['instructor_id']);
+            $table->dropForeign(['course_id']);
+        });
+
+        Schema::dropIfExists('course_instructor');
     }
 }
