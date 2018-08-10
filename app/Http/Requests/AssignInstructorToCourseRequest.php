@@ -28,7 +28,7 @@ class AssignInstructorToCourseRequest extends FormRequest
             ],
             'type' => [
                 'required',
-                'in:coach,instructor',
+                'in:coach,volunteer',
             ],
             'instructor_id' => [
                 'required',
