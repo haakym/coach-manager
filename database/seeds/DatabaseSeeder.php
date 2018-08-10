@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Seeder;
 use App\Models\Course;
+use App\Models\Instructor;
 
 class DatabaseSeeder extends Seeder
 {
@@ -13,6 +14,8 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         // $this->call(UsersTableSeeder::class);
-        factory(Course::class)->create();
+        factory(Course::class, 3)->create();
+        factory(Instructor::class)->states('coach', 2)->create();
+        factory(Instructor::class)->states('volunteer', 2)->create();
     }
 }
