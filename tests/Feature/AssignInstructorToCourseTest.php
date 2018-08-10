@@ -8,17 +8,25 @@ use App\Models\Instructor;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\Concerns\InteractsWithExceptionHandling;
 
 class AssignInstructorToCourseTest extends TestCase
 {
-    use RefreshDatabase, InteractsWithExceptionHandling;
+    use RefreshDatabase;
+    
+    /** @test */
+    public function user_can_view_the_assign_form_when_course_is_pending()
+    {
+        $course = factory(Course::class)->create();
+
+        $response = $this->get('courses/1');
+
+        $response->assertStatus(200)
+            ->assertSee('Assign Instructor');
+    }
 
     /** @test */
     public function user_can_assign_a_coach_to_a_course()
     {
-        $this->withoutExceptionHandling();
-
         $dateFrom = Carbon::parse('first day of January next year');
         $dateTo = $dateFrom->copy()->addDays(5);
 
@@ -47,8 +55,6 @@ class AssignInstructorToCourseTest extends TestCase
     /** @test */
     public function user_can_assign_two_coaches_to_share_a_course()
     {
-        $this->withoutExceptionHandling();
-        
         $dateFrom = Carbon::parse('first day of January next year');
         $dateTo = $dateFrom->copy()->addDays(5);
 
@@ -85,7 +91,6 @@ class AssignInstructorToCourseTest extends TestCase
     /** @test */
     public function user_can_assign_coaches_and_instructors()
     {
-
         $dateFrom = Carbon::parse('first day of January next year');
         $dateTo = $dateFrom->copy()->addDays(5);
 

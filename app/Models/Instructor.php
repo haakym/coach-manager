@@ -3,11 +3,14 @@
 namespace App\Models;
 
 use App\Models\Certificate;
+use App\Models\CourseInstructor;
 use Illuminate\Database\Eloquent\Model;
 
 class Instructor extends Model
 {
     protected $guarded = [];
+
+    protected $appends = ['hourly_rate_in_pounds'];
 
     public function getHourlyRateInPoundsAttribute()
     {
@@ -49,8 +52,19 @@ class Instructor extends Model
     public function courses()
     {
         return $this->belongsToMany(Course::class)
+            ->using(CourseInstructor::class)
             ->withPivot('date_from', 'date_to')
             ->withTimestamps();
             // ->as('bettername')
+    }
+
+    public function scopeCoaches($query)
+    {
+        return $query->where('type', 'coach');
+    }
+
+    public function scopeVolunteers($query)
+    {
+        return $query->where('type', 'volunteer');
     }
 }

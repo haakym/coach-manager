@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Course;
+use App\Models\Instructor;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 
@@ -71,7 +72,15 @@ class CourseController extends Controller
      */
     public function show(Course $course)
     {
-        return view('courses.show', ['course' => $course]);
+        $course->load('instructors');
+
+        $data = [
+            'course' => $course,
+            'coaches' => Instructor::coaches()->get(),
+            'volunteers' => Instructor::volunteers()->get(),
+        ];
+
+        return view('courses.show', $data);
     }
 
     /**

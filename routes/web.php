@@ -17,8 +17,8 @@ Route::get('/', function () {
 
 Route::get('/courses/create', 'CourseController@create');
 Route::post('/courses', 'CourseController@store');
+Route::post('/courses/{course}/instructors', 'CourseInstructorController@store')->name('courses.assign.instructor');
 Route::get('/courses/{course}', 'CourseController@show');
-Route::post('/courses/{course}/instructors', 'CourseInstructorController@store');
 
 Route::get('/instructors/create', 'InstructorController@create');
 Route::post('/instructors', 'InstructorController@store');

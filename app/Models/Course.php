@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Instructor;
+use App\Models\CourseInstructor;
 
 class Course extends Model
 {
@@ -14,9 +15,20 @@ class Course extends Model
     public function instructors()
     {
         return $this->belongsToMany(Instructor::class)
+            ->using(CourseInstructor::class)
             ->withPivot('date_from', 'date_to')
             ->withTimestamps();
             // ->as('bettername')
+    }
+    
+    public function coaches()
+    {
+        return $this->instructors()->where('type', 'coach');
+    }
+    
+    public function volunteers()
+    {
+        return $this->instructors()->where('type', 'volunteer');
     }
 
     public function instructorRequirementByType($type)

@@ -18,7 +18,7 @@ class CourseInstructorAssignmentIsValid implements Rule
     {
         $this->dateFrom = Carbon::createFromFormat('d-m-Y', $assignmentProposal['date_from']);
         $this->dateTo = Carbon::createFromFormat('d-m-Y', $assignmentProposal['date_to']);
-        $this->instructor = Instructor::findOrFail($assignmentProposal['instructor_id']);
+        $this->instructor = Instructor::find($assignmentProposal['instructor_id']);
         $this->course = $assignmentProposal['course'];
         $this->type = $assignmentProposal['type'];
         $this->message = 'The assigned instructor and dates are invalid.';
