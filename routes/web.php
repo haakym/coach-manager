@@ -17,8 +17,10 @@ Route::get('/', function () {
 
 Route::get('/courses/create', 'CourseController@create');
 Route::post('/courses', 'CourseController@store');
+Route::get('/courses/{course}/edit', 'CourseController@edit');
 Route::post('/courses/{course}/instructors', 'CourseInstructorController@store')->name('courses.assign.instructor');
 Route::get('/courses/{course}', 'CourseController@show');
+Route::put('/courses/{course}', 'CourseController@update');
 
 Route::get('/instructors/create', 'InstructorController@create');
 Route::post('/instructors', 'InstructorController@store');

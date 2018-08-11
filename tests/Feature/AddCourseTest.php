@@ -24,7 +24,7 @@ class AddCourseTest extends TestCase
     public function user_can_add_a_course()
     {
         $dateFrom = Carbon::parse('first day of January next year');
-        $dateTo = $dateFrom->addDays(5);
+        $dateTo = $dateFrom->copy()->addDays(5);
 
         $response = $this->post('courses', [
             'name' => 'Football skills under 11s',
@@ -47,5 +47,7 @@ class AddCourseTest extends TestCase
         $this->assertEquals('pending', $course->status);
         $this->assertEquals('1', $course->coaches_required);
         $this->assertEquals('1', $course->volunteers_required);
+        $this->assertEquals($dateFrom, $course->date_from);
+        $this->assertEquals($dateTo, $course->date_to);
     }
 }
