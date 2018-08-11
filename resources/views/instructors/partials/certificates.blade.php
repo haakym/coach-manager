@@ -18,7 +18,9 @@
                 <th>
                     {{ $certificate->expiry_date ? $certificate->expiry_date->format('d-m-Y') : 'N/A' }}</th>
                 <th>
-                    <a href="#">Download</a>
+                    <a href="{{ route('certificates.download', ['certificate' => $certificate->id]) }}">
+                        Download
+                    </a>
                 </th>
             </tr>
         @endforeach

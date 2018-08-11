@@ -29,7 +29,7 @@ Route::get('/instructors/{instructor}/edit', 'InstructorController@edit');
 Route::get('/instructors/{instructor}', 'InstructorController@show');
 Route::put('/instructors/{instructor}', 'InstructorController@update');
 
-Route::get('/certificates/{certificate}/download', 'CertificateDownloadController');
+Route::get('/certificates/{certificate}/download', 'CertificateDownloadController')->name('certificates.download');
 
 Auth::routes();
 
