@@ -45,13 +45,18 @@
                         </div>
                         <div class="form-group" v-if="instructor_type == 'coach'">
                             <label for="name">Hourly rate*</label>
-                            <input type="number"
-                                name="hourly_rate" 
-                                class="form-control {{ $errors->first('hourly_rate', 'is-invalid') }}" 
-                                value="{{ old('hourly_rate') }}"
-                                placeholder="Enter instructor hourly rate in pounds"
-                                min="1" step="any"
-                            >
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">&pound;</div>
+                                </div>
+                                <input type="number"
+                                    name="hourly_rate" 
+                                    class="form-control {{ $errors->first('hourly_rate', 'is-invalid') }}" 
+                                    value="{{ old('hourly_rate') }}"
+                                    placeholder="Enter instructor hourly rate in pounds"
+                                    min="1" step="any"
+                                >
+                            </div>
                             {!! $errors->first('hourly_rate', '<div class="invalid-feedback">:message</div>') !!}
                         </div>
                         <button type="submit" class="btn btn-primary">Add</button>
