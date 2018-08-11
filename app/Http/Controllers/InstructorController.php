@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Instructor;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class InstructorController extends Controller
 {
@@ -77,7 +78,7 @@ class InstructorController extends Controller
      */
     public function edit(Instructor $instructor)
     {
-        //
+        return view('instructors/edit', ['instructor' => $instructor]);
     }
 
     /**
@@ -89,7 +90,30 @@ class InstructorController extends Controller
      */
     public function update(Request $request, Instructor $instructor)
     {
-        //
+        $validatedData = $request->validate([
+            'name' => 'required|between:2,255',
+            'email' => [
+                'required',
+                'email',
+                Rule::unique('instructors')->ignore($instructor->id),
+            ],
+            'type' => 'required|in:coach,volunteer',
+            'hourly_rate' => 'required_if:type,coach|regex:/^\d*(\.\d{1,2})?$/'
+        ], [
+            'hourly_rate.regex' => 'The hourly rate format is invalid, please use the following format: 0.00.'
+        ]);
+
+        $instructor->name = $request->name;
+        $instructor->email = $request->email;
+        $instructor->type = $request->type;
+        $instructor->hourly_rate = $request->has('hourly_rate') ? $request->hourly_rate : 0;
+        $instructor->save();
+
+        return redirect("instructors/{$instructor->id}")
+            ->with([
+                'status' => 'success',
+                'message' => "Instructor updated.",
+            ]);
     }
 
     /**
