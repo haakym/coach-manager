@@ -26,6 +26,6 @@ class ReviewCourseStatus
      */
     public function handle(InstructorAssignedToCourse $event)
     {
-        //
+        $event->course->reviewStatus();
     }
 }
