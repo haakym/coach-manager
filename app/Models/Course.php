@@ -41,7 +41,7 @@ class Course extends Model
     public function reviewStatus()
     {
         $types = ['coach', 'volunteer'];
-        $reviewDate = $this->date_from;
+        
         /**
          * Additionally requires "H:i:s" for date format to pass tests using sqlite, 
          * as in tests using sqlite dates retrieved by Laravel in "Y-m-d H:i:s" format 
@@ -55,19 +55,18 @@ class Course extends Model
         $status = 'assigned';
 
         foreach ($types as $type) {
+            $reviewDate = $this->date_from;
             $instructorRequirementByType = $this->instructorRequirementByType($type);
 
             while ($reviewDate <= $this->date_to) {
-                
+
                 if ($instructorRequirementByType != 0) {
                     $assignedCount = call_user_func_array([$this, str_plural($type)], [])
                         ->wherePivot('date_from', '<=', $reviewDate->format('Y-m-d H:i:s'))
                         ->wherePivot('date_to', '>=', $reviewDate->format('Y-m-d H:i:s'))
-                        // ->get();
                         ->count();
-                    // dd($assignedCount);
 
-                    \Log::info($reviewDate->format('Y-m-d') . ": {$assignedCount}");
+                    // \Log::info($reviewDate->format('Y-m-d') . ": {$assignedCount} {$type}"); // Todo: remove this
 
                     if ($assignedCount != $instructorRequirementByType) {
                         $status = 'pending';

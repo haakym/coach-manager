@@ -92,7 +92,7 @@ class AssignInstructorToCourseTest extends TestCase
     public function user_can_assign_coaches_and_instructors()
     {
         $dateFrom = Carbon::parse('first day of January next year');
-        $dateTo = $dateFrom->copy()->addDays(5);
+        $dateTo = $dateFrom->copy()->addDays(2);
 
         $coach = factory(Instructor::class)->states('coach')->create();
         $volunteer = factory(Instructor::class)->states('volunteer')->create();
