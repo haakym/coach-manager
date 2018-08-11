@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\Course;
 use App\Models\Instructor;
 use Illuminate\Http\Request;
-use Carbon\Carbon;
+use App\Http\Requests\StoreCourseRequest;
 
 class CourseController extends Controller
 {
@@ -35,18 +36,8 @@ class CourseController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreCourseRequest $request)
     {
-        $validatedData = $request->validate([
-            'name' => 'required|between:2,255',
-            'description' => 'nullable|between:10,500',
-            'address' => 'nullable|between:10,500',
-            'date_from' => 'required|date_format:"d-m-Y|after:today',
-            'date_to' => 'required|date_format:"d-m-Y|after_or_equal:date_from',
-            'coaches_required' => 'required|integer',
-            'volunteers_required' => 'required|integer',
-        ]);
-
         $course = Course::create([
             'name' => $request->name,
             'description' => $request->description,
