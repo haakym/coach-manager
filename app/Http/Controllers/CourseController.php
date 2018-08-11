@@ -91,7 +91,7 @@ class CourseController extends Controller
      */
     public function edit(Course $course)
     {
-        //
+        return view('courses.edit', ['course' => $course]);
     }
 
     /**
@@ -103,7 +103,22 @@ class CourseController extends Controller
      */
     public function update(Request $request, Course $course)
     {
-        //
+        $validatedData = $request->validate([
+            'name' => 'required|between:2,255',
+            'description' => 'nullable|between:10,500',
+            'address' => 'nullable|between:10,500',
+        ]);
+
+        $course->name = $request->name;
+        $course->description = $request->description;
+        $course->address = $request->address;
+        $course->save();
+
+        return redirect("courses/{$course->id}")
+            ->with([
+                'status' => 'success',
+                'message' => 'Course updated.',
+            ]);
     }
 
     /**
