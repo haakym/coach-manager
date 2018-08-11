@@ -14,7 +14,7 @@
                     <div class="card-title">
                         <h2>
                             {{ $course->name }}
-                            <span class="badge badge-pill badge-{{ $course->status != 'pending' ? success : 'secondary' }}">
+                            <span class="badge badge-pill badge-{{ $course->status != 'pending' ? 'success' : 'secondary' }}">
                                 {{ ucfirst($course->status) }}
                             </span>
                         </h2>
