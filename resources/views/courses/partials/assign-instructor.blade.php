@@ -12,7 +12,7 @@
             @csrf
             <div class="form-group">
                 <label for="type">Type*</label>
-                <select name="type" class="form-control" v-model="type" @change="loadInstructors()" required>
+                <select name="type" class="form-control {{ $errors->first('type', 'is-invalid') }}" v-model="type" @change="loadInstructors()" required>
                     <option value="">Select an instructor type</option>
                     <option value="coach">Coach</option>
                     <option value="volunteer">Volunteer</option>
@@ -21,7 +21,7 @@
             </div>
             <div class="form-group">
                 <label for="type">Instructor*</label>
-                <select name="instructor_id" class="form-control" v-model="instructor" required>
+                <select name="instructor_id" class="form-control {{ $errors->first('instructor_id', 'is-invalid') }}" v-model="instructor" required>
                     <option value="">Select an instructor</option>
                     <option v-for="instructor in instructors" :key="instructor.id" :value="instructor.id">
                         @{{ instructor.name }} @{{ instructor['hourly_rate'] != 0 ? '(£' + instructor['hourly_rate_in_pounds'] + ' p/h)' : '' }}

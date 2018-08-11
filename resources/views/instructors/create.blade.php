@@ -37,7 +37,7 @@
                         </div>
                         <div class="form-group">
                             <label for="type">Type*</label>
-                            <select name="type" class="form-control" v-model="instructor_type">
+                            <select name="type" class="form-control {{ $errors->first('type', 'is-invalid') }}" v-model="instructor_type">
                                 <option value="">Select an instructor type</option>
                                 <option value="coach">Coach</option>
                                 <option value="volunteer">Volunteer</option>

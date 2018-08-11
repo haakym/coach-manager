@@ -36,7 +36,7 @@
             </div>
             <div class="form-group">
                 <label for="type">Type*</label>
-                <select name="type" class="form-control">
+                <select name="type" class="form-control {{ $errors->first('type', 'is-invalid') }}">
                     <option value="">Select an certificate type</option>
                     <option value="qualification" {{ old('type') == 'qualification' ? 'selected' : '' }}>Qualification</option>
                     <option value="background-check" {{ old('type') == 'background-check' ? 'selected' : '' }}>Background check</option>
