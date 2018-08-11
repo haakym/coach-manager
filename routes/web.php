@@ -24,7 +24,9 @@ Route::put('/courses/{course}', 'CourseController@update');
 
 Route::get('/instructors/create', 'InstructorController@create');
 Route::post('/instructors', 'InstructorController@store');
+Route::get('/instructors/{instructor}/edit', 'InstructorController@edit');
 Route::get('/instructors/{instructor}', 'InstructorController@show');
+Route::put('/instructors/{instructor}', 'InstructorController@update');
 
 Route::get('/certificates/{certificate}/download', 'CertificateDownloadController');
 
