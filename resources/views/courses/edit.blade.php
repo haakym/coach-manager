@@ -67,9 +67,9 @@
                             {!! $errors->first('date_to', '<div class="invalid-feedback">:message</div>') !!}
                         </div>
                         <div class="form-group">
-                            <label for="name">Coaches required*</label>
+                            <label for="coaches_required">Coaches required*</label>
                             <input type="text"
-                                name="name"
+                                name="coaches_required"
                                 class="form-control {{ $errors->first('coaches_required', 'is-invalid') }}"
                                 value="{{ old('coaches_required') ? old('coaches_required') : $course->coaches_required }}"
                                 placeholder="Enter number of coaches"
@@ -78,9 +78,9 @@
                             {!! $errors->first('coaches_required', '<div class="invalid-feedback">:message</div>') !!}
                         </div>
                         <div class="form-group">
-                            <label for="name">Volunteers required*</label>
+                            <label for="volunteers_required">Volunteers required*</label>
                             <input type="text"
-                                name="name"
+                                name="volunteers_required"
                                 class="form-control {{ $errors->first('volunteers_required', 'is-invalid') }}"
                                 value="{{ old('volunteers_required') ? old('volunteers_required') : $course->volunteers_required }}"
                                 placeholder="Enter number of volunteers"
