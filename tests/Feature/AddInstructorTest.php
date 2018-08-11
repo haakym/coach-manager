@@ -45,7 +45,7 @@ class AddInstructorTest extends TestCase
             'name' => 'Jane Doeseph',
             'email' => 'jane@example.com',
             'type' => 'coach',
-            'hourly_rate' => '2000',
+            'hourly_rate' => '20.00',
         ]);
 
         $instructor = Instructor::first();
