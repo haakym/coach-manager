@@ -47,5 +47,7 @@ class AddCourseTest extends TestCase
         $this->assertEquals('pending', $course->status);
         $this->assertEquals('1', $course->coaches_required);
         $this->assertEquals('1', $course->volunteers_required);
+        $this->assertEquals($dateFrom, $course->date_from);
+        $this->assertEquals($dateTo, $course->date_to);
     }
 }
