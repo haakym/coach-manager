@@ -26,6 +26,7 @@
                     @endif
                 </div>
             </div>
+            @include('instructors/partials/upload-certificate')
         </div>
     </div>
 </div>
