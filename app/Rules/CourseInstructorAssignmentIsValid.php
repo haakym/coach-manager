@@ -39,13 +39,11 @@ class CourseInstructorAssignmentIsValid implements Rule
         }
 
         $instructorRequirement = $this->course->instructorRequirementByType($this->type);
-
-        $instructorsAssigned = $this->course
-                    ->instructors() // ToDo: refactor to query scope: coaches(), volunteers()
-                    ->where('type', $this->type)
-                    ->wherePivot('date_from', $this->dateFrom->format('Y-m-d'))
-                    ->wherePivot('date_to', $this->dateTo->format('Y-m-d'))
-                    ->get();
+        
+        $instructorsAssigned = call_user_func_array([$this->course, str_plural($this->type)], [])
+                            ->wherePivot('date_from', '<=', $this->dateFrom->format('Y-m-d') . ' 00:00:00')
+                            ->wherePivot('date_to', '>=', $this->dateTo->format('Y-m-d') . ' 00:00:00')
+                            ->get();
 
         if ($instructorsAssigned->count() >= $instructorRequirement) {
             $this->message = 'There are already enough ' . str_plural($this->type) . ' assigned for these dates.';

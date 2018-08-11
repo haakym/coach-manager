@@ -44,7 +44,7 @@ class AssignInstructorToCourseValidationTest extends TestCase
     public function validation_fails_when_coach_requirement_is_already_met()
     {
         $dateFrom = Carbon::parse('first day of January next year');
-        $dateTo = $dateFrom->copy()->addDays(5);
+        $dateTo = $dateFrom->copy()->addDays(2);
 
         $coach1 = factory(Instructor::class)->states('coach')->create();
         $coach2 = factory(Instructor::class)->states('coach')->create();
