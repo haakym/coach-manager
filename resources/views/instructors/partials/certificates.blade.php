@@ -1,5 +1,5 @@
 <h3>Certificates</h3>
-<table class="table">
+<table class="table table-bordered table-sm">
     <thead>
         <tr>
             <th>Type</th>

@@ -3,9 +3,13 @@
 namespace Tests\Feature;
 
 use Tests\TestCase;
+use Carbon\Carbon;
+use App\Models\Instructor;
+use App\Models\Certificate;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Http\UploadedFile;
 
 class UploadCertificateTest extends TestCase
 {
@@ -30,7 +34,7 @@ class UploadCertificateTest extends TestCase
         $instructor = factory(Instructor::class)->states('volunteer')->create();
 
         $file = UploadedFile::fake()->create('document.pdf', 8);
-        $expiryDate = Carbon::parse('+1 month');
+        $expiryDate = Carbon::parse('+2 month');
 
         $response = $this->post("instructors/{$instructor->id}/certificates", [
             'name' => 'Football Coach Certificate',
@@ -40,12 +44,15 @@ class UploadCertificateTest extends TestCase
             'file' => $file,
         ]);
 
+        $response->assertRedirect("instructors/{$instructor->id}")
+            ->assertSessionHas('message', "Certificate uploaded.");
+
         $certificate = Certificate::first();
 
         $this->assertEquals('Football Coach Certificate', $certificate->name);
         $this->assertEquals('Certificate of excellence in football training', $certificate->description);
         $this->assertEquals('qualification', $certificate->type);
-        $this->assertEquals($expiryDate->format('Y-m-d'), $certificate->expiry_date);
+        $this->assertEquals($expiryDate->format('Y-m-d'), $certificate->expiry_date->format('Y-m-d'));
 
         Storage::disk('local')->assertExists("certificates/{$file->hashName()}");
 
