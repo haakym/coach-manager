@@ -15,7 +15,11 @@
                 <td>{{ $certificate->type }}</td>
                 <td>{{ $certificate->name }}</td>
                 <td>{{ $certificate->description }}</td>
-                <td>
+                <td
+                    @if($certificate->has_expired)
+                        class="table-danger"
+                    @endif
+                >
                     {{ $certificate->expiry_date ? $certificate->expiry_date->format('d-m-Y') : 'N/A' }}</td>
                 <td>
                     <a href="{{ route('certificates.download', ['certificate' => $certificate->id]) }}">
