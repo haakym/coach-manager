@@ -38,6 +38,17 @@ class CourseInstructorAssignmentIsValid implements Rule
             return false;
         }
 
+        $currentAssignments = $this->instructor->courses()
+            ->where('courses.id', '!=', $this->course->id)
+            ->wherePivot('date_from', '>=', $this->dateFrom->format('Y-m-d') . ' 00:00:00')
+            ->wherePivot('date_to', '<=', $this->dateTo->format('Y-m-d') . ' 00:00:00')
+            ->count();
+        
+        if ($currentAssignments != 0) {
+            $this->message = 'Coach is already assigned to a different course within this date range.';
+            return false;
+        }
+
         $instructorRequirement = $this->course->instructorRequirementByType($this->type);
         
         $instructorsAssigned = call_user_func_array([$this->course, str_plural($this->type)], [])

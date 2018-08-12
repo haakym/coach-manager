@@ -105,6 +105,41 @@ class AssignInstructorToCourseValidationTest extends TestCase
     }
 
     /** @test */
+    public function validation_fails_when_coach_double_books_to_two_separate_courses()
+    {
+        $dateFrom = Carbon::parse('first day of January next year');
+        $dateTo = $dateFrom->copy()->addDays(5);
+
+        $coach = factory(Instructor::class)->states('coach')->create();
+
+        $course1 = factory(Course::class)->create([
+            'date_from' => $dateFrom->format('Y-m-d'),
+            'date_to' => $dateTo->format('Y-m-d'),
+            'coaches_required' => 2,
+        ]);
+
+        $course2 = factory(Course::class)->create([
+            'date_from' => $dateFrom->format('Y-m-d'),
+            'date_to' => $dateTo->format('Y-m-d'),
+            'coaches_required' => 2,
+        ]);
+
+        $course1->instructors()->attach($coach->id, [
+            'date_from' => $dateFrom->format('Y-m-d'),
+            'date_to' => $dateTo->format('Y-m-d'),
+        ]);
+
+        $response = $this->post('/courses/2/instructors', [
+            'date_from' => $dateFrom->format('d-m-Y'),
+            'date_to' => $dateTo->format('d-m-Y'),
+            'instructor_id' => $coach->id,
+            'type' => 'coach',
+        ]);
+
+        $response->assertSessionHasErrors(['instructor_id' => 'Coach is already assigned to a different course within this date range.']);
+    }
+
+    /** @test */
     public function validation_fails_when_coach_is_assigned_to_a_fully_booked_day()
     {
         $dateFrom = Carbon::parse('first day of January next year');
