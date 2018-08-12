@@ -51,7 +51,7 @@
                 </select>
                 {!! $errors->first('expires', '<div class="invalid-feedback">:message</div>') !!}
             </div>
-            <div class="form-group" v-show="expires == 'yes'">
+            <div class="form-group" v-show="expires == 'yes'" v-cloak>
                 <label for="expiry_date">Expiry date*</label>
                 <input type="text"
                     name="expiry_date"

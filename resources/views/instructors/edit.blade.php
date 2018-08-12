@@ -44,7 +44,7 @@
                                 <option value="volunteer">Volunteer</option>
                             </select>
                         </div>
-                        <div class="form-group" v-if="instructor_type == 'coach'">
+                        <div class="form-group" v-if="instructor_type == 'coach'" v-cloak>
                             <label for="name">Hourly rate*</label>
                             <div class="input-group">
                                 <div class="input-group-prepend">
