@@ -19,12 +19,14 @@ class AssignInstructorToCourseRequest extends FormRequest
             'date_from' => [
                 'required',
                 'date_format:"d-m-Y',
-                'after_or_equal:' . $this->course->date_from,
+                'before_or_equal:date_to',
+                'after_or_equal:' . $this->course->date_from->format('d-m-Y'),
             ],
             'date_to' => [
                 'required',
                 'date_format:"d-m-Y',
-                'before_or_equal:' . $this->course->date_to,
+                'after_or_equal:date_from',
+                'before_or_equal:' . $this->course->date_to->format('d-m-Y'),
             ],
             'type' => [
                 'required',

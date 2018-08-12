@@ -136,4 +136,56 @@ class AssignInstructorToCourseValidationTest extends TestCase
 
         $response->assertSessionHasErrors(['instructor_id' => 'There are already enough coaches assigned for these dates.']);
     }
+
+    /** @test */
+    public function validation_fails_when_dates_from_is_greater_than_date_to()
+    {
+        $dateFrom = Carbon::parse('first day of January next year');
+        $dateTo = $dateFrom->copy()->addDays(5);
+
+        $course = factory(Course::class)->create([
+            'date_from' => $dateFrom->format('Y-m-d'),
+            'date_to' => $dateTo->format('Y-m-d'),
+            'coaches_required' => 1,
+            'volunteers_required' => 0,
+            'status' => 'pending'
+        ]);
+        
+        $coach = factory(Instructor::class)->states('coach')->create();
+
+        $response = $this->post('/courses/1/instructors', [
+            'date_from' => $dateTo->format('d-m-Y'),
+            'date_to' => $dateFrom->format('d-m-Y'),
+            'instructor_id' => $coach->id,
+            'type' => 'coach',
+        ]);
+
+        $response->assertSessionHasErrors(['date_from', 'date_to']);
+    }
+
+    /** @test */
+    public function validation_fails_when_assing_dates_are_outside_of_course_dates()
+    {
+        $dateFrom = Carbon::parse('first day of January next year');
+        $dateTo = $dateFrom->copy()->addDays(5);
+
+        $course = factory(Course::class)->create([
+            'date_from' => $dateFrom->format('Y-m-d'),
+            'date_to' => $dateTo->format('Y-m-d'),
+            'coaches_required' => 1,
+            'volunteers_required' => 0,
+            'status' => 'pending'
+        ]);
+        
+        $coach = factory(Instructor::class)->states('coach')->create();
+
+        $response = $this->post('/courses/1/instructors', [
+            'date_from' => $dateTo->copy()->addYear()->format('d-m-Y'),
+            'date_to' => $dateFrom->copy()->addYear()->format('d-m-Y'),
+            'instructor_id' => $coach->id,
+            'type' => 'coach',
+        ]);
+
+        $response->assertSessionHasErrors(['date_from', 'date_to']);
+    }
 }
