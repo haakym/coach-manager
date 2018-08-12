@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use App\Models\Certificate;
 use App\Models\CourseInstructor;
 use Illuminate\Database\Eloquent\Model;
@@ -66,5 +67,12 @@ class Instructor extends Model
     public function scopeVolunteers($query)
     {
         return $query->where('type', 'volunteer');
+    }
+
+    public function unassignFromCourses()
+    {
+        $this->courses()
+            ->wherePivot('date_from', '>=', Carbon::now()->format('Y-m-d'))
+            ->detach();
     }
 }

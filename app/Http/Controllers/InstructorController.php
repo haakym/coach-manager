@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Instructor;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use App\Events\InstructorTypeUpdated;
 
 class InstructorController extends Controller
 {
@@ -90,7 +91,7 @@ class InstructorController extends Controller
      */
     public function update(Request $request, Instructor $instructor)
     {
-        $validatedData = $request->validate([
+        $request->validate([
             'name' => 'required|between:2,255',
             'email' => [
                 'required',
@@ -107,7 +108,14 @@ class InstructorController extends Controller
         $instructor->email = $request->email;
         $instructor->type = $request->type;
         $instructor->hourly_rate = $request->has('hourly_rate') ? $request->hourly_rate : 0;
+        
+        $typeChanged = $instructor->isDirty('type');
+        
         $instructor->save();
+
+        if ($typeChanged) {
+            event(new InstructorTypeUpdated($instructor));
+        }
 
         return redirect("instructors/{$instructor->id}")
             ->with([

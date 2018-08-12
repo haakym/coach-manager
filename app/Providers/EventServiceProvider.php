@@ -16,6 +16,9 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\InstructorAssignedToCourse' => [
             'App\Listeners\ReviewCourseStatus',
         ],
+        'App\Events\InstructorTypeUpdated' => [
+            'App\Listeners\UnassignInstructorFromCourses',
+        ]
     ];
 
     /**

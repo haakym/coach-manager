@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use Carbon\Carbon;
 use Tests\TestCase;
+use App\Models\Course;
 use App\Models\Instructor;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -124,5 +125,40 @@ class EditInstructorTest extends TestCase
         $this->assertEquals('spo@examples.com', $instructor->email);
         $this->assertEquals('coach', $instructor->type);
         $this->assertEquals(1225, $instructor->hourly_rate);
+    }
+
+    /** @test */
+    public function an_instructor_is_unassigned_from_future_courses_when_type_is_edited()
+    {
+        $instructor = factory(Instructor::class)->states('volunteer')->create([
+            'name' => 'Jane Doe',
+            'email' => 'jane@example.com',
+            'hourly_rate' => 0,
+        ]);
+
+        $futureCourse = factory(Course::class)->create();
+        $futureCourse->instructors()->attach($instructor->id, [
+            'date_from' => $futureCourse->date_from->format('Y-m-d'),
+            'date_to' => $futureCourse->date_to->format('Y-m-d'),
+        ]);
+
+        $pastCourse = factory(Course::class)->create([
+            'date_from' => Carbon::parse('-10 days'),
+            'date_to' => Carbon::parse('-7 days'),
+        ]);
+        $pastCourse->instructors()->attach($instructor->id, [
+            'date_from' => $pastCourse->date_from->format('Y-m-d'),
+            'date_to' => $pastCourse->date_to->format('Y-m-d'),
+        ]);
+
+        $response = $this->put("instructors/{$instructor->id}", [
+            'name' => 'Sally Po',
+            'email' => 'spo@examples.com',
+            'type' => 'coach',
+            'hourly_rate' => '12.25',
+        ]);
+
+        $this->assertEquals(0, $futureCourse->fresh()->instructors()->count());
+        $this->assertEquals(1, $pastCourse->fresh()->instructors()->count());
     }
 }
