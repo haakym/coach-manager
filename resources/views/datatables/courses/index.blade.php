@@ -10,6 +10,7 @@
                     <th>Address</th>
                     <th>From</th>
                     <th>To</th>
+                    <th>Status</th>
                     <th>Coaches Required</th>
                     <th>Volunteers Required</th>
                     <th>Action</th>
@@ -33,6 +34,7 @@
                     { data: 'address', name: 'address' },
                     { data: 'date_from', name: 'date_from' },
                     { data: 'date_to', name: 'date_to' },
+                    { data: 'status', name: 'status' },
                     { data: 'coaches_required', name: 'coaches_required' },
                     { data: 'volunteers_required', name: 'volunteers_required' },
                     { data: 'action', name: 'action' },
