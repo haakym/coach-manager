@@ -17,11 +17,13 @@ class DatabaseSeeder extends Seeder
         $date = Carbon::parse('+1 week');
 
         factory(Course::class)->create([
+            'name' => 'Football Training',
             'date_from' => $date,
             'date_to' => $date->copy()->addDays(2),
         ]);
 
         factory(Course::class)->create([
+            'name' => 'After School Football Club',
             'date_from' => $date->copy()->addDays(5),
             'date_to' => $date->copy()->addDays(10),
         ]);
