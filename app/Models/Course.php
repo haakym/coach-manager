@@ -2,9 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
 use App\Models\Instructor;
 use App\Models\CourseInstructor;
+use Illuminate\Database\Eloquent\Model;
 
 class Course extends Model
 {
@@ -29,6 +30,15 @@ class Course extends Model
     public function volunteers()
     {
         return $this->instructors()->where('type', 'volunteer');
+    }
+
+    public function getHasStartedAttribute()
+    {
+        if (Carbon::now() > $this->date_from) {
+            return true;
+        }
+
+        return false;
     }
 
     public function instructorRequirementByType($type)

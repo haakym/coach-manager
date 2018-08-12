@@ -82,6 +82,10 @@ class CourseController extends Controller
      */
     public function edit(Course $course)
     {
+        if ($course->has_started) {
+            return $this->cannotUpdate($course->id);
+        }
+
         return view('courses.edit', ['course' => $course]);
     }
 
@@ -94,6 +98,10 @@ class CourseController extends Controller
      */
     public function update(Request $request, Course $course)
     {
+        if ($course->has_started) {
+            return $this->cannotUpdate($course->id);
+        }
+
         $validatedData = $request->validate([
             'name' => 'required|between:2,255',
             'description' => 'nullable|between:10,500',
@@ -121,5 +129,14 @@ class CourseController extends Controller
     public function destroy(Course $course)
     {
         //
+    }
+
+    private function cannotUpdate($id)
+    {
+        return redirect()->route('courses.show', ['id' => $id])
+            ->with([
+                'status' => 'info',
+                'message' => 'You cannot edit a course that has already started or finished.'
+            ]);
     }
 }
