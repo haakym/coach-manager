@@ -80,10 +80,6 @@
                     if (event.start.format('YYYY-MM-DD') === event.end.format('YYYY-MM-DD')) {
                         newLine = '<br> ';
                     }
-
-                    // if (event.cover) {
-                    //     element.find('.fc-title').append(newLine + ' (Cover: ' + event.cover + ')'); 
-                    // }
                 }
             });
         });
