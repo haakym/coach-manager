@@ -2,59 +2,32 @@
 
 ## Installation
 
-Clone repo
-
-```bash
-git clone https://github.com/haakym/coach-manager.git
-```
-
-Install composer dependencies
-
-```bash
-composer install
-```
-
-Set up `.env` file
-
-```bash
-cp .env.example .env
-```
-
-Generate app key
-
-```bash
-php artisan key:generate
-```
+1. Clone repo `git clone https://github.com/haakym/coach-manager.git`
+2. Install composer dependencies `composer install`
+3. Set up `.env` file `cp .env.example .env`
+4. Generate app key `php artisan key:generate`
 
 ### Database
 
 The web app uses MySQL or MariaDB database so one of these databases should be created to run the app. The respective database config should be updated in the `.env` file.
 
-Run migrations
-
-```bash
-php artisan migrate
-```
-
-Seed data can be optionally used which will create a few courses, coaches and volunteers
-
-```bash
-php artisan db:seed
-```
+1. Run migrations `php artisan migrate`
+2. Seed data can be optionally used which will create a few courses, coaches and volunteers `php artisan db:seed`
 
 ## Technologies Used
 
-Git used for version control and GitFlow for branch management
+Git used for version control and GitFlow for branch management.
 
 ### Back-end
 
 - PHP 7.1.7
+- Apache 2.4
 - Laravel 5.6
 - Laravel Datatables for Course and Instructors (Coach/Volunteer) index view https://github.com/yajra/laravel-datatables
 - Laravel debugbar for deubgging purposes https://github.com/barryvdh/laravel-debugbar
 - Database
-  - MySQL for live app
-  - SQLite for testing
+  - MySQL 5.7, for local testing
+  - SQLite (in memory) for phpunit test suite
 
 ### Front-end
 
