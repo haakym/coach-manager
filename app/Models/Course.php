@@ -48,19 +48,21 @@ class Course extends Model
         return $this->$attribute;
     }
 
+    /**
+     * Note on query:
+     * Additionally requires "H:i:s" for date format to pass tests using sqlite, 
+     * as in tests using sqlite dates retrieved by Laravel in "Y-m-d H:i:s" format 
+     * so date comparisons can fail.
+     *  
+     * See links for details:
+     * - https://github.com/laravel/framework/issues/10006
+     * - https://github.com/laravel/framework/issues/24693
+     */
     public function reviewStatus()
     {
         $types = ['coach', 'volunteer'];
         
-        /**
-         * Additionally requires "H:i:s" for date format to pass tests using sqlite, 
-         * as in tests using sqlite dates retrieved by Laravel in "Y-m-d H:i:s" format 
-         * so date comparisons can fail.
-         *  
-         * See links for details:
-         * - https://github.com/laravel/framework/issues/10006
-         * - https://github.com/laravel/framework/issues/24693
-         */
+        
         // $reviewDateFormatted = $this->date_from->format('Y-m-d');
         $status = 'assigned';
 
