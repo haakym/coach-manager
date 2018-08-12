@@ -14,7 +14,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 class UploadCertificateTest extends TestCase
 {
     use RefreshDatabase;
-    
+
     /** @test */
     public function user_can_view_the_upload_certificate_form()
     {
@@ -40,6 +40,7 @@ class UploadCertificateTest extends TestCase
             'name' => 'Football Coach Certificate',
             'description' => 'Certificate of excellence in football training',
             'type' => 'qualification',
+            'expires' => 'yes',
             'expiry_date' => $expiryDate->format('d-m-Y'),
             'file' => $file,
         ]);
@@ -55,6 +56,35 @@ class UploadCertificateTest extends TestCase
         $this->assertEquals($expiryDate->format('Y-m-d'), $certificate->expiry_date->format('Y-m-d'));
 
         Storage::disk('local')->assertExists("certificates/{$file->hashName()}");
+    }
 
+    /** @test */
+    public function user_can_upload_certificate_without_expiry()
+    {
+        Storage::fake('local');
+
+        $instructor = factory(Instructor::class)->states('volunteer')->create();
+
+        $file = UploadedFile::fake()->create('document.pdf', 8);
+
+        $response = $this->post("instructors/{$instructor->id}/certificates", [
+            'name' => 'Football Coach Certificate',
+            'description' => 'Certificate of excellence in football training',
+            'type' => 'qualification',
+            'expires' => 'no',
+            'file' => $file,
+        ]);
+
+        $response->assertRedirect("instructors/{$instructor->id}")
+            ->assertSessionHas('message', "Certificate uploaded.");
+
+        $certificate = Certificate::first();
+
+        $this->assertEquals('Football Coach Certificate', $certificate->name);
+        $this->assertEquals('Certificate of excellence in football training', $certificate->description);
+        $this->assertEquals('qualification', $certificate->type);
+        $this->assertNull($certificate->expiry_date);
+
+        Storage::disk('local')->assertExists("certificates/{$file->hashName()}");
     }
 }

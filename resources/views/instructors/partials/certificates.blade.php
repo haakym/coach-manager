@@ -12,16 +12,16 @@
     <tbody>
         @foreach($certificates as $certificate)
             <tr>
-                <th>{{ $certificate->type }}</th>
-                <th>{{ $certificate->name }}</th>
-                <th>{{ $certificate->description }}</th>
-                <th>
-                    {{ $certificate->expiry_date ? $certificate->expiry_date->format('d-m-Y') : 'N/A' }}</th>
-                <th>
+                <td>{{ $certificate->type }}</td>
+                <td>{{ $certificate->name }}</td>
+                <td>{{ $certificate->description }}</td>
+                <td>
+                    {{ $certificate->expiry_date ? $certificate->expiry_date->format('d-m-Y') : 'N/A' }}</td>
+                <td>
                     <a href="{{ route('certificates.download', ['certificate' => $certificate->id]) }}">
                         Download
                     </a>
-                </th>
+                </td>
             </tr>
         @endforeach
     </tbody>

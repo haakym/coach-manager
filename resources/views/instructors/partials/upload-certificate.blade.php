@@ -24,32 +24,40 @@
                 {!! $errors->first('name', '<div class="invalid-feedback">:message</div>') !!}
             </div>
             <div class="form-group">
-                <label for="description">Description*</label>
+                <label for="description">Description</label>
                 <input type="text"
                     name="description"
                     class="form-control {{ $errors->first('description', 'is-invalid') }}"
                     value="{{ old('description') }}"
                     placeholder="Enter certificate description"
-                    required
                 >
                 {!! $errors->first('description', '<div class="invalid-feedback">:message</div>') !!}
             </div>
             <div class="form-group">
                 <label for="type">Type*</label>
-                <select name="type" class="form-control {{ $errors->first('type', 'is-invalid') }}">
+                <select name="type" class="form-control {{ $errors->first('type', 'is-invalid') }}" required>
                     <option value="">Select an certificate type</option>
                     <option value="qualification" {{ old('type') == 'qualification' ? 'selected' : '' }}>Qualification</option>
                     <option value="background-check" {{ old('type') == 'background-check' ? 'selected' : '' }}>Background check</option>
                 </select>
+                {!! $errors->first('type', '<div class="invalid-feedback">:message</div>') !!}
             </div>
             <div class="form-group">
+                <label for="expires">Expires*</label>
+                <select name="expires" class="form-control {{ $errors->first('expires', 'is-invalid') }}" required v-model="expires">
+                    <option value="">Select expiry option</option>
+                    <option value="yes" {{ old('expires') == 'yes' ? 'selected' : '' }}>Yes</option>
+                    <option value="no" {{ old('expires') == 'no' ? 'selected' : '' }}>No</option>
+                </select>
+                {!! $errors->first('expires', '<div class="invalid-feedback">:message</div>') !!}
+            </div>
+            <div class="form-group" v-show="expires == 'yes'">
                 <label for="expiry_date">Expiry date*</label>
                 <input type="text"
                     name="expiry_date"
                     class="form-control {{ $errors->first('expiry_date', 'is-invalid') }}"
                     value="{{ old('expiry_date')}}"
                     placeholder="Use date-picker to enter a date"
-                    required
                 >
                 <small class="form-text text-muted">
                     Must be valid for at least one more month
@@ -75,6 +83,15 @@
     <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        var app = new Vue({
+            el: '#app',
+            data: {
+                expires: '{{ old("expires") }}'
+            }
+        });
+    </script>
     <script>
     $(function() {
         let expiryDateOld = '{{ old("expiry_date") }}';
@@ -85,8 +102,8 @@
             'locale': {
                'format': 'DD-MM-YYYY'
             },
-            'startDate': expiryDateOld ? expiryDateOld : moment().add(1, 'month'),
-            'minDate': moment().add(1, 'month'),
+            'startDate': expiryDateOld ? expiryDateOld : moment().add(1, 'month').add(1, 'day'),
+            'minDate': moment().add(1, 'month').add(1, 'day'),
         }, function(start, end, label) {
             // TODO
             // if dateTo < start, set dateTo = start
