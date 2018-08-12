@@ -7,6 +7,10 @@
         #calendar {
             
         }
+        .fc-row {
+            overflow: hidden;
+        }
+
 		.pending {
 			background: #6c757d;
 			border: #6c757d 1px solid;
