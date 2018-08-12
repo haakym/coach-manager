@@ -236,7 +236,7 @@ ToDo: check link is valid here ^
 
 #### Calendar
 
-The calendar was implemented on the front-end using fullcalendar.io through which the data source was simply an DB query returning JSON data.
+The calendar was implemented on the front-end using fullcalendar.io through which the data source was simply an DB query returning JSON data. Course's are highlighted in different colours to indicate their status, green for assigned and grey for pending. Courses can be clicked on to view further course details.
 
 ##### Code
 
@@ -248,7 +248,7 @@ This test is currently failing as the query is using a raw query to concat an at
 
 ### Testing
 
-Each test describes a specific feature or actions around that feature. The test suite mostly consists of feature based HTTP tests with some unit tests. Tests typically focus on the "happy path", some edge cases and the related validation.
+Each test describes a specific feature or actions around that feature. The test suite mostly consists of feature based HTTP tests with some unit tests. Tests typically focus on the "happy path", then edge cases and their related validation.
 
 To run tests execute:
 
