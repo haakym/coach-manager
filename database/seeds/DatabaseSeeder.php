@@ -1,8 +1,9 @@
 <?php
 
-use Illuminate\Database\Seeder;
+use Carbon\Carbon;
 use App\Models\Course;
 use App\Models\Instructor;
+use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -13,8 +14,18 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // $this->call(UsersTableSeeder::class);
-        factory(Course::class, 3)->create();
+        $date = Carbon::parse('+1 week');
+
+        factory(Course::class)->create([
+            'date_from' => $date,
+            'date_to' => $date->copy()->addDays(2),
+        ]);
+
+        factory(Course::class)->create([
+            'date_from' => $date->copy()->addDays(5),
+            'date_to' => $date->copy()->addDays(10),
+        ]);
+
         factory(Instructor::class, 2)->states('coach')->create();
         factory(Instructor::class, 2)->states('volunteer')->create();
     }
