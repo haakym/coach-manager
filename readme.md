@@ -81,6 +81,8 @@ Upon finishing a feature I would merge the feature branch back into the develop 
 
 ### Implementation and Features
 
+Overview of the implementation and features with comments on assumptions made in light of the requirements brief.
+
 #### Course
 
 Attributes:
@@ -104,13 +106,31 @@ Model: https://github.com/haakym/coach-manager/blob/master/app/Models/Course.php
 
 Controller: https://github.com/haakym/coach-manager/blob/master/app/Http/Controllers/CourseController.php
 
+Tests:
+
+- https://github.com/haakym/coach-manager/blob/master/tests/Feature/ViewCourseTest.php
+- https://github.com/haakym/coach-manager/blob/master/tests/Feature/AddCourseTest.php
+- https://github.com/haakym/coach-manager/blob/master/tests/Feature/AddCourseValidationTest.php
+- https://github.com/haakym/coach-manager/blob/master/tests/Unit/Models/CourseTest.php
+
 ##### URLs
 
 View: http://coach-manager.test/courses/1
 
+When viewing a course all details of the course and related information is available including the number of instructors assigned to the course and the dates for which they are assigned. This page also provides the form to assign new instructors to the course provided the course is of status "pending".
+
 Add:  http://coach-manager.test/courses/create
 
+Beyond the basics, the add course form implements the following validation rules:
+
+- course date_from must start after today
+- coaches_required and volunteers_required can't both be 0
+
 Edit:  http://coach-manager.test/courses/1/edit
+
+TODO: When editing a course, if dates or coaches_required or volunteers_required are modified the instructors assigned to the course should be removed, and notified?
+
+A course cannot be edited if the start date has already passed.
 
 Resource index: http://coach-manager.test/resources/courses
 
@@ -136,6 +156,12 @@ Model: https://github.com/haakym/coach-manager/blob/master/app/Models/Instructor
 
 Controller: https://github.com/haakym/coach-manager/blob/master/app/Http/Controllers/InstructorController.php
 
+Tests:
+
+- https://github.com/haakym/coach-manager/blob/master/tests/Feature/ViewInstructorTest.php
+- https://github.com/haakym/coach-manager/blob/master/tests/Feature/AddInstructorTest.php
+- https://github.com/haakym/coach-manager/blob/master/tests/Unit/Models/InstructorTest.php
+
 ##### URLs
 
 View: http://coach-manager.test/instructors/1
@@ -144,8 +170,108 @@ Add:  http://coach-manager.test/instructors/create
 
 Edit:  http://coach-manager.test/instructors/1/edit
 
+ToDo: When editing an instructor if the instructor type is modified the instructor will be removed from any courses that they are assigned to that have not yet commenced.
+
 Resource index: http://coach-manager.test/resources/instructors
 
+#### Certificate
+
+Attributes:
+
+- name
+- description
+- type
+  - of two types:
+    1. qualification, e.g. "Certificate of Coaching"
+    2. background-check, e.g. DBS
+- expiry_date
+  - optional field
+- file
+- instructor_id
+  - the instructor the certificate belongs to
+
+##### Code
+
+Migration: https://github.com/haakym/coach-manager/blob/master/database/migrations/2018_08_05_113733_create_certificates_table.php
+
+Model: https://github.com/haakym/coach-manager/blob/master/app/Models/Certificate.php
+
+Controllers:
+
+- https://github.com/haakym/coach-manager/blob/master/app/Http/Controllers/InstructorCertificateController.php
+- https://github.com/haakym/coach-manager/blob/master/app/Http/Controllers/CertificateDownloadController.php
+
+Tests:
+
+- https://github.com/haakym/coach-manager/blob/master/tests/Feature/UploadCertificateTest.php
+- https://github.com/haakym/coach-manager/blob/master/tests/Feature/DownloadCertificateTest.php
+- https://github.com/haakym/coach-manager/blob/master/tests/Unit/Models/CertificateTest.php
+
+##### URLs
+
+View/Add: http://coach-manager.test/instructors/1
+
+Certificates uploaded for instructors can be viewed and added when viewing an instructor. If an instructors certificate has expired (i.e. the expiry date is less than todays date) the date will be highlighted in red to indicate expiration to the user.
+
+When uploading a certificate, upon selecting an expiry date I decided that the expiry date must be at a minimum of one months time from today's date as it seemed less useful that a user could upload a certificate that would soon expire.
+
+#### CourseInstructor
+
+This entity represents the relationship between courses and instructors, i.e. instructors assigned to courses and the dates they are assigned to the course for. As this is a many-to-many relationship I used the Laravel convention of naming the entity, i.e. joining both table names in alphabetical order.
+
+Attributes:
+
+- date_from
+- date_to
+  - dates the instructor is assigned to the course, this can of course be the same as the course dates if the instructor is covering the full course dates or within the range of the course dates if they are sharing with another instructor
+- instructor_id
+- course_id
+
+##### Code
+
+Migration: https://github.com/haakym/coach-manager/blob/master/database/migrations/2018_08_09_094406_create_course_instructor_table.php
+
+Model: https://github.com/haakym/coach-manager/blob/master/app/Models/CourseInstructor.php
+
+Controllers: https://github.com/haakym/coach-manager/blob/master/app/Http/Controllers/CourseInstructorController.php
+
+Tests:
+
+- https://github.com/haakym/coach-manager/blob/master/tests/Feature/AssignInstructorToCourseTest.php
+- https://github.com/haakym/coach-manager/blob/master/tests/Feature/AssignInstructorToCourseValidationTest.php
+- https://github.com/haakym/coach-manager/blob/master/tests/Feature/ReviewCourseStatusTest.php
+
+Rules: https://github.com/haakym/coach-manager/blob/master/app/Rules/CourseInstructorAssignmentIsValid.php
+
+When assigning an instructor to a course this rule checks for the following when assigning an instructor to a course:
+
+- The course status is not assigned
+- The instructor is not already assigned to another course on the dates of the assignment proposal
+- The instructor requirement is not already met on the course overall or within the dates proposed
+
+##### URLs
+
+View/Assign: http://coach-manager.test/courses/1
+
+When viewing a course, the existing instructors assigned the course and their dates can be viewed as well as the form to assign a new instructor.
+
+Upon successfully assigning an instructor to a course I triggered an event and responding listener that would cause the Course entity to *review its status* - meaning that a check would be made for each day of the course and if the Course's coaches_requirement and volunteers_requirement was met the status would be set to "assigned". The code related to this can be found on the `reviewStatus()` on the Course model here:
+
+https://github.com/haakym/coach-manager/blob/master/app/Models/Course.php#L51
+
+ToDo: check link is valid here ^
+
+#### Calendar
+
+The calendar was implemented on the front-end using fullcalendar.io through which the data source was simply an DB query returning JSON data.
+
+##### Code
+
+Controller: https://github.com/haakym/coach-manager/blob/master/app/Http/Controllers/CalendarController.php
+
+Tests: https://github.com/haakym/coach-manager/blob/master/tests/Feature/CalendarDataSourceTest.php
+
+This test is currently failing as the query is using a raw query to concat an attribute into a anchor tag. I have written the query to work with MySQL using the concat function whereas the testing suite is using SQLite which concats via "||".
 
 ### Testing
 
