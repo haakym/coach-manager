@@ -21,7 +21,7 @@ class CourseTransformer extends TransformerAbstract
             'date_to' => $course->date_to->format('d-m-Y'),
             'coaches_required' => $course->coaches_required,
             'volunteers_required' => $course->volunteers_required,
-            'view' => $this->showLink('courses.show', $course->id),
+            'action' => $this->showLink('courses.show', $course->id) . $this->editLink('courses.edit', $course->id),
         ];
     }
 }

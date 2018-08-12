@@ -9,7 +9,7 @@
                     <th>Type</th>
                     <th>Email</th>
                     <th>Hourly rate</th>
-                    <th>View</th>
+                    <th>Action</th>
                 </tr>
             </thead>
         </table>
@@ -30,7 +30,7 @@
                     { data: 'type', name: 'type' },
                     { data: 'email', name: 'email' },
                     { data: 'hourly_rate', name: 'hourly_rate' },
-                    { data: 'view', name: 'view' },
+                    { data: 'action', name: 'action' },
                 ]
             });
         });

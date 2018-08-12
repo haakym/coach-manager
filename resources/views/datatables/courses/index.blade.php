@@ -12,7 +12,7 @@
                     <th>To</th>
                     <th>Coaches Required</th>
                     <th>Volunteers Required</th>
-                    <th>View</th>
+                    <th>Action</th>
                 </tr>
             </thead>
         </table>
@@ -36,7 +36,7 @@
                     { data: 'date_to', name: 'date_to' },
                     { data: 'coaches_required', name: 'coaches_required' },
                     { data: 'volunteers_required', name: 'volunteers_required' },
-                    { data: 'view', name: 'view' },
+                    { data: 'action', name: 'action' },
                 ]
             });
         });

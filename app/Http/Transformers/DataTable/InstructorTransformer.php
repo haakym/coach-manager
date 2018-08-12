@@ -18,7 +18,7 @@ class InstructorTransformer extends TransformerAbstract
             'type' => $instructor->type,
             'email' => $instructor->email,
             'hourly_rate' => $instructor->hourly_rate ? "£ {$instructor->hourly_rate_in_pounds}" : 'N/A',
-            'view' => $this->showLink('instructors.show', $instructor->id),
+            'action' => $this->showLink('instructors.show', $instructor->id) . $this->editLink('instructors.edit', $instructor->id),
         ];
     }
 }

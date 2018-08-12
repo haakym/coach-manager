@@ -7,7 +7,7 @@ Route::get('/calendar/data', 'CalendarController@data');
 
 Route::get('/courses/create', 'CourseController@create')->name('courses.create');
 Route::post('/courses', 'CourseController@store');
-Route::get('/courses/{course}/edit', 'CourseController@edit');
+Route::get('/courses/{course}/edit', 'CourseController@edit')->name('courses.edit');
 Route::post('/courses/{course}/instructors', 'CourseInstructorController@store')->name('courses.assign.instructor');
 Route::get('/courses/{course}', 'CourseController@show')->name('courses.show');
 Route::put('/courses/{course}', 'CourseController@update');
@@ -15,7 +15,7 @@ Route::put('/courses/{course}', 'CourseController@update');
 Route::get('/instructors/create', 'InstructorController@create')->name('instructors.create');
 Route::post('/instructors', 'InstructorController@store');
 Route::post('/instructors/{instructor}/certificates', 'InstructorCertificateController@store');
-Route::get('/instructors/{instructor}/edit', 'InstructorController@edit');
+Route::get('/instructors/{instructor}/edit', 'InstructorController@edit')->name('instructors.edit');
 Route::get('/instructors/{instructor}', 'InstructorController@show')->name('instructors.show');
 Route::put('/instructors/{instructor}', 'InstructorController@update');
 
