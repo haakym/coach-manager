@@ -15,6 +15,9 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/calendar', 'CalendarController@index')->name('calendar.index');
+Route::get('/calendar/data', 'CalendarController@data');
+
 Route::get('/courses/create', 'CourseController@create');
 Route::post('/courses', 'CourseController@store');
 Route::get('/courses/{course}/edit', 'CourseController@edit');
