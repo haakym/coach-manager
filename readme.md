@@ -101,7 +101,7 @@ Beyond the basics, the add course form implements the following validation rules
 
 Edit:  http://coach-manager.test/courses/1/edit
 
-TODO: When editing a course, if dates or coaches_required or volunteers_required are modified the instructors assigned to the course should be removed, and notified?
+When editing a course, if the attributes date_from, date_to, coaches_required or volunteers_required are modified the instructors assigned to the courses will be removed and the course status set to pending. This will only apply to courses which have not yet commenced.
 
 A course cannot be edited if the start date has already passed.
 
@@ -143,7 +143,7 @@ Add:  http://coach-manager.test/instructors/create
 
 Edit:  http://coach-manager.test/instructors/1/edit
 
-ToDo: When editing an instructor if the instructor type is modified the instructor will be removed from any courses that they are assigned to that have not yet commenced.
+When editing an instructor if the instructor type is modified the instructor will be removed from any courses that they are assigned to that have not yet commenced and the course status will be set to pending.
 
 Resource index: http://coach-manager.test/resources/instructors
 
