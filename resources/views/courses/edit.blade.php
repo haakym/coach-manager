@@ -11,6 +11,9 @@
                             Edit Course
                         </h2>
                     </div>
+                    <div class="alert alert-warning" role="alert">
+                        Modifying "Date from, Date to, Coaches required or Volunteers required" will remove any instructors already assigned to the course.
+                    </div>
                     <form action="/courses/{{ $course->id }}" method="POST">
                         @method('PUT')
                         @csrf

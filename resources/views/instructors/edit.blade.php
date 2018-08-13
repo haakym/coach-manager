@@ -11,6 +11,9 @@
                             Edit Instructor
                         </h2>
                     </div>
+                    <div class="alert alert-warning" role="alert">
+                        Modifying "Type" will remove the instructor from any future courses.
+                    </div>
                     <form action="/instructors/{{ $instructor->id }}" method="POST">
                         @method('PUT')
                         @csrf
