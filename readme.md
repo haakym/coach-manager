@@ -232,8 +232,6 @@ Upon successfully assigning an instructor to a course I triggered an event and r
 
 https://github.com/haakym/coach-manager/blob/master/app/Models/Course.php#L51
 
-ToDo: check link is valid here ^
-
 #### Calendar
 
 The calendar was implemented on the front-end using fullcalendar.io through which the data source was simply an DB query returning JSON data. Course's are highlighted in different colours to indicate their status, green for assigned and grey for pending. Courses can be clicked on to view further course details.
