@@ -7,19 +7,25 @@
             <div class="card">
                 <div class="card-body">
                     <div class="card-title">
-                        <div class='btn-toolbar pull-right'>
-                            <div class='btn-group'>
-                                <a href="{{ route('courses.edit', ['id' => $course->id]) }}"
-                                    class="btn btn-primary"
-                                >Edit</a>
+                        <div class="d-flex">
+                            <div class="p-2">
+                                <h2>
+                                    {{ $course->name }}
+                                    <span class="badge badge-pill badge-{{ $course->status != 'pending' ? 'success' : 'secondary' }}">
+                                        {{ ucfirst($course->status) }}
+                                    </span>
+                                </h2>
+                            </div>
+                            <div class="ml-auto p-2">
+                                <div class='btn-toolbar pull-right'>
+                                    <div class='btn-group'>
+                                        <a href="{{ route('courses.edit', ['id' => $course->id]) }}"
+                                            class="btn btn-primary"
+                                        >Edit</a>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <h2>
-                            {{ $course->name }}
-                            <span class="badge badge-pill badge-{{ $course->status != 'pending' ? 'success' : 'secondary' }}">
-                                {{ ucfirst($course->status) }}
-                            </span>
-                        </h2>
                     </div>
                     <div class="row">
                         <div class="col-md-6">

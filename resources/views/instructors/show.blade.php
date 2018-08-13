@@ -7,19 +7,25 @@
             <div class="card">
                 <div class="card-body">
                     <div class="card-title">
-                        <div class='btn-toolbar pull-right'>
-                            <div class='btn-group'>
-                                <a href="{{ route('instructors.edit', ['id' => $instructor->id]) }}"
-                                    class="btn btn-primary"
-                                >Edit</a>
+                        <div class="d-flex">
+                            <div class="p-2">
+                                <h2>
+                                    {{ $instructor->name }} 
+                                    <span class="badge badge-pill badge-primary">
+                                        {{ ucfirst($instructor->type) }}
+                                    </span>
+                                </h2>
+                            </div>
+                            <div class="ml-auto p-2">
+                                <div class='btn-toolbar pull-right'>
+                                    <div class='btn-group'>
+                                        <a href="{{ route('instructors.edit', ['id' => $instructor->id]) }}"
+                                            class="btn btn-primary"
+                                        >Edit</a>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <h2>
-                            {{ $instructor->name }} 
-                            <span class="badge badge-pill badge-primary">
-                                {{ ucfirst($instructor->type) }}
-                            </span>
-                        </h2>
                     </div>
                     <p>
                         <span role="img" aria-label="Email">✉</span>
