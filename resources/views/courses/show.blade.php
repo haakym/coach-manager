@@ -7,6 +7,13 @@
             <div class="card">
                 <div class="card-body">
                     <div class="card-title">
+                        <div class='btn-toolbar pull-right'>
+                            <div class='btn-group'>
+                                <a href="{{ route('courses.edit', ['id' => $course->id]) }}"
+                                    class="btn btn-primary"
+                                >Edit</a>
+                            </div>
+                        </div>
                         <h2>
                             {{ $course->name }}
                             <span class="badge badge-pill badge-{{ $course->status != 'pending' ? 'success' : 'secondary' }}">

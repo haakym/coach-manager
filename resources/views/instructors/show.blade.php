@@ -7,6 +7,13 @@
             <div class="card">
                 <div class="card-body">
                     <div class="card-title">
+                        <div class='btn-toolbar pull-right'>
+                            <div class='btn-group'>
+                                <a href="{{ route('instructors.edit', ['id' => $instructor->id]) }}"
+                                    class="btn btn-primary"
+                                >Edit</a>
+                            </div>
+                        </div>
                         <h2>
                             {{ $instructor->name }} 
                             <span class="badge badge-pill badge-primary">
