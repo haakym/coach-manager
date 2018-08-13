@@ -71,8 +71,17 @@ class Instructor extends Model
 
     public function unassignFromCourses()
     {
+        $courses = $this->courses;
+        
         $this->courses()
             ->wherePivot('date_from', '>=', Carbon::now()->format('Y-m-d'))
             ->detach();
+        
+        $courses->each(function ($course, $key) {
+            $course->status = 'pending';
+            $course->save();
+        });
+
+        return $this;
     }
 }

@@ -136,7 +136,11 @@ class EditInstructorTest extends TestCase
             'hourly_rate' => 0,
         ]);
 
-        $futureCourse = factory(Course::class)->create();
+        $futureCourse = factory(Course::class)->create([
+            'status' => 'assigned',
+            'coaches_required' => 1,
+            'volunteers_required' => 0,
+        ]);
         $futureCourse->instructors()->attach($instructor->id, [
             'date_from' => $futureCourse->date_from->format('Y-m-d'),
             'date_to' => $futureCourse->date_to->format('Y-m-d'),
@@ -160,5 +164,6 @@ class EditInstructorTest extends TestCase
 
         $this->assertEquals(0, $futureCourse->fresh()->instructors()->count());
         $this->assertEquals(1, $pastCourse->fresh()->instructors()->count());
+        $this->assertEquals('pending', $futureCourse->fresh()->status);
     }
 }
