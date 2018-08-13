@@ -184,7 +184,7 @@ Tests:
 
 View/Add: http://coach-manager.test/instructors/1
 
-Certificates uploaded for instructors can be viewed and added when viewing an instructor. If an instructors certificate has expired (i.e. the expiry date is less than todays date) the date will be highlighted in red to indicate expiration to the user.
+Certificates uploaded for instructors can be viewed and added when viewing an instructor. If an instructors certificate has expired (i.e. the expiry date is less than today's date) the date will be highlighted in red to indicate expiration to the user.
 
 When uploading a certificate, upon selecting an expiry date I decided that the expiry date must be at a minimum of one months time from today's date as it seemed less useful that a user could upload a certificate that would soon expire.
 
@@ -196,7 +196,7 @@ Attributes:
 
 - date_from
 - date_to
-  - dates the instructor is assigned to the course, this can of course be the same as the course dates if the instructor is covering the full course dates or within the range of the course dates if they are sharing with another instructor
+  - dates the instructor is assigned to the course, this can, of course, be the same as the course dates if the instructor is covering the full course dates or within the range of the course dates if they are sharing with another instructor
 - instructor_id
 - course_id
 
@@ -228,13 +228,13 @@ View/Assign: http://coach-manager.test/courses/1
 
 When viewing a course, the existing instructors assigned the course and their dates can be viewed as well as the form to assign a new instructor.
 
-Upon successfully assigning an instructor to a course I triggered an event and responding listener that would cause the Course entity to *review its status* - meaning that a check would be made for each day of the course and if the Course's coaches_requirement and volunteers_requirement was met the status would be set to "assigned". The code related to this can be found on the `reviewStatus()` on the Course model here:
+Upon successfully assigning an instructor to a course I triggered an event and responding listener that would cause the Course entity to *review its status* - meaning that a check would be made for each day of the course and if the Course's coaches_requirement and volunteers_requirement were met the status would be set to "assigned". The code related to this can be found on the `reviewStatus()` on the Course model here:
 
 https://github.com/haakym/coach-manager/blob/master/app/Models/Course.php#L51
 
 #### Calendar
 
-The calendar was implemented on the front-end using fullcalendar.io through which the data source was simply an DB query returning JSON data. Course's are highlighted in different colours to indicate their status, green for assigned and grey for pending. Courses can be clicked on to view further course details.
+The calendar was implemented on the front-end using fullcalendar.io through which the data source was simply a database query returning JSON data. Course's are highlighted in different colours to indicate their status, green for assigned and grey for pending. Courses can be clicked on to view further course details.
 
 ##### Code
 
@@ -242,7 +242,7 @@ Controller: https://github.com/haakym/coach-manager/blob/master/app/Http/Control
 
 Tests: https://github.com/haakym/coach-manager/blob/master/tests/Feature/CalendarDataSourceTest.php
 
-This test is currently failing as the query is using a raw query to concat an attribute into a anchor tag. I have written the query to work with MySQL using the concat function whereas the testing suite is using SQLite which concats via "||".
+This test is currently failing as the query is using a raw query to concat an attribute into an anchor tag. I have written the query to work with MySQL using the concat function whereas the testing suite is using SQLite which concats via "||".
 
 ### Testing
 
