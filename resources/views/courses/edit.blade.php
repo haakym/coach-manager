@@ -51,7 +51,7 @@
                                 class="form-control {{ $errors->first('date_from', 'is-invalid') }}"
                                 value="{{ $course->date_from->format('d-m-Y') }}"
                                 placeholder="Use date-picker to enter a date"
-                                disabled
+                                required
                             >
                             {!! $errors->first('date_from', '<div class="invalid-feedback">:message</div>') !!}
                         </div>
@@ -62,7 +62,7 @@
                                 class="form-control {{ $errors->first('date_to', 'is-invalid') }}"
                                 value="{{ $course->date_to->format('d-m-Y') }}"
                                 placeholder="Use date-picker to enter a date"
-                                disabled
+                                required
                             >
                             {!! $errors->first('date_to', '<div class="invalid-feedback">:message</div>') !!}
                         </div>
@@ -73,7 +73,7 @@
                                 class="form-control {{ $errors->first('coaches_required', 'is-invalid') }}"
                                 value="{{ old('coaches_required') ? old('coaches_required') : $course->coaches_required }}"
                                 placeholder="Enter number of coaches"
-                                disabled
+                                required
                             >
                             {!! $errors->first('coaches_required', '<div class="invalid-feedback">:message</div>') !!}
                         </div>
@@ -84,7 +84,7 @@
                                 class="form-control {{ $errors->first('volunteers_required', 'is-invalid') }}"
                                 value="{{ old('volunteers_required') ? old('volunteers_required') : $course->volunteers_required }}"
                                 placeholder="Enter number of volunteers"
-                                disabled
+                                required
                             >
                             {!! $errors->first('volunteers_required', '<div class="invalid-feedback">:message</div>') !!}
                         </div>

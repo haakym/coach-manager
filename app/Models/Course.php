@@ -97,4 +97,16 @@ class Course extends Model
         
         return $this;
     }
+
+    public function unassignInstructors()
+    {
+        $this->instructors()
+            ->wherePivot('date_from', '>=', Carbon::now()->format('Y-m-d'))
+            ->detach();
+
+        $this->status = 'pending';
+        $this->save();
+
+        return $this;
+    }
 }

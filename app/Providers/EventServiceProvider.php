@@ -18,6 +18,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         'App\Events\InstructorTypeUpdated' => [
             'App\Listeners\UnassignInstructorFromCourses',
+        ],
+        'App\Events\CourseDateOrRequiredAttributesUpdated' => [
+            'App\Listeners\UnassignCourseInstructors',
         ]
     ];
 

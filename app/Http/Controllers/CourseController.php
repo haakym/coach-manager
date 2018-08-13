@@ -7,6 +7,8 @@ use App\Models\Course;
 use App\Models\Instructor;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreCourseRequest;
+use App\Http\Requests\UpdateCourseRequest;
+use App\Events\CourseDateOrRequiredAttributesUpdated;
 
 class CourseController extends Controller
 {
@@ -96,22 +98,26 @@ class CourseController extends Controller
      * @param  \App\Models\Course  $course
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Course $course)
+    public function update(UpdateCourseRequest $request, Course $course)
     {
         if ($course->has_started) {
             return $this->cannotUpdate($course->id);
         }
 
-        $validatedData = $request->validate([
-            'name' => 'required|between:2,255',
-            'description' => 'nullable|between:10,500',
-            'address' => 'nullable|between:10,500',
-        ]);
-
         $course->name = $request->name;
         $course->description = $request->description;
         $course->address = $request->address;
+        $course->date_from = Carbon::createFromFormat('d-m-Y', $request->date_from)->format('Y-m-d');
+        $course->date_to = Carbon::createFromFormat('d-m-Y', $request->date_to)->format('Y-m-d');
+        $course->coaches_required = (int) $request->coaches_required;
+        $course->volunteers_required = (int) $request->volunteers_required;
+
+        $unassignRequired = $course->isDirty(['date_from', 'date_to', 'coaches_required', 'volunteers_required']);
         $course->save();
+
+        if ($unassignRequired) {
+            event(new CourseDateOrRequiredAttributesUpdated($course));
+        }
 
         return redirect("courses/{$course->id}")
             ->with([
