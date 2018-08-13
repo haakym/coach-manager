@@ -37,7 +37,7 @@ class InstructorController extends Controller
      */
     public function store(Request $request)
     {
-        $validatedData = $request->validate([
+        $request->validate([
             'name' => 'required|between:2,255',
             'email' => 'required|email|unique:instructors',
             'type' => 'required|in:coach,volunteer',

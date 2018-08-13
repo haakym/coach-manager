@@ -10,7 +10,7 @@ class InstructorCertificateController extends Controller
 {
     public function store(Instructor $instructor, Request $request)
     {
-        $validatedData = $request->validate([
+        $request->validate([
             'name' => 'required|between:2,255',
             'description' => 'nullable|between:10,500',
             'type' => 'required|in:qualification,background-check',
